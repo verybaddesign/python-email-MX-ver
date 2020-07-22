@@ -3,7 +3,7 @@ def readTed(dmn):
   import dns.resolver
   spam="generator.email" ##Add additional domains with an 'and' boolean.##
   for i in dns.resolver.resolve(dmn, 'MX'):
-    print(spam in i.to_text())
+    return(spam in i.to_text())
 
 ##This is an example use of the function which will return with a False.##
 
