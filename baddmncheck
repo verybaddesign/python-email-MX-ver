@@ -1,0 +1,17 @@
+##This definition will take a specified domain and check its Mail Exchange (MX) server against a spam list to return a boolean value. A known spam domain is chosen for the example.##
+def readTed(dmn):
+  import dns.resolver
+  spam="generator.email" ##Add additional domains with an 'and' boolean.##
+  for i in dns.resolver.resolve(dmn, 'MX'):
+    print(spam in i.to_text())
+
+##This is an example use of the function which will return with a False.##
+
+##This use case shows using the previous function embedded to translate the True or False boolean into a more easily interpreted response.##
+def readIndustrialSocietyandItsFuture(dmn):
+  if readTed(dmn) == True:
+    print('Blocked!')
+  else:
+    print('Okay.')
+
+readIndustrialSocietyandItsFuture("pizzahut.com")
