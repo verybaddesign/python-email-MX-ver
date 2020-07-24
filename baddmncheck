@@ -1,34 +1,34 @@
-##This definition will take a specified domain and check its Mail Exchange (MX) server against a spam list to return a boolean value. A known spam domain is chosen for the example.##
+#This definition will take a specified domain and check its Mail Exchange (MX) server against a spam list to return a boolean value. A known spam domain is chosen for the example.#
+import dns.resolver
+spam="generator.email"
+
 def readTed(dmn):
-  import dns.resolver
-  spam="generator.email" ##Add additional domains with an 'and' boolean or define a list previously.##
-  for i in dns.resolver.resolve(dmn, 'MX'):
+  for i in dns.resolver.query(dmn, 'MX'):
     return(spam in i.to_text())
 
-##This use case shows using the previous function embedded to translate the True or False boolean into a more easily interpreted response.##
+#This use case shows using the previous function embedded to translate the True or False boolean into a more easily interpreted response.#
 def readIndustrialSocietyandItsFuture(dmn):
-  if readTed(dmn) == True:
-    print('Blocked!')
-  else:
-    print('Okay.')
+  print({True: dmn + ' uses a mail exchange server marked for spam.', False: dmn + ' is okay.'}[readTed(dmn)])
 
-readIndustrialSocietyandItsFuture("pizzahut.com") ##This should print 'Okay.'##
+readIndustrialSocietyandItsFuture("pizzahut.com")
+#This should print 'Okay.'#
+readIndustrialSocietyandItsFuture("bestdizua.ml")
+#And this example should read a generated spam message.#
 
-##Of course, if you're iterating this function through a large list of domains, you're probably more interested in which domains are bad rather. This definition only responds with the bad MX servers.##
+#Of course, if you're iterating this function through a large list of domains, you're probably more interested in which domains are bad rather. This definition only responds with the bad MX servers.#
 
 def readKaczynski(dmn):
-  if readTed(dmn) == True:
-    print(dmn + ' uses a mail exchange server marked for spam.')
+  if readTed(dmn): print(dmn + ' uses a mail exchange server marked for spam.')
 
-##Here is a successful single use:##
+#Here is a successful single use:#
 
 readKaczynski("bestdizua.ml")
 
-##Here is an example of multiple good domains being parsed and only returning the one spam domain:##
+#Here is an example of multiple good domains being parsed and only returning the one spam domain:#
 
 dmnlist=("gmail.com","hotmail.com","bestdizua.ml","forbes.com")
 
 for i in dmnlist:
   readKaczynski(i)
 
-##This should only generate the domains within an arbitrarily long list which use the mail server indicated as a possible spam source.##
+#This should only generate the domains within an arbitrarily long list which use the mail server indicated as a possible spam source.#
