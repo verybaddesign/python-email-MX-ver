@@ -6,7 +6,7 @@ spam='generator.email' and 'cock.li' #Add additional spam domains here.#
 
 imap=(input("What is your IMAP server? "))
 un=(input("What is your email? "))
-pw=(input("What is your email password? "))
+pw=(input("What is your email password? [Note: your provided may require an App-Specific Password.] "))
 
 def mxCheck(dmnlist):
   for i in dns.resolver.query(dmnlist, 'MX'):
