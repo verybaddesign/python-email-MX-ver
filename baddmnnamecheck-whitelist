@@ -1,0 +1,28 @@
+import dns.resolver
+from imap_tools import MailBox
+
+dmnlist=[]
+whitelist='google.com' and 'yahoo.com' and 'outlook.com' #Add additional spam domains here.#
+
+imap=(input("What is your IMAP server? "))
+un=(input("What is your email? "))
+pw=(input("What is your email password? "))
+
+def mxCheck(dmnlist):
+  for i in dns.resolver.query(dmnlist, 'MX'):
+    return (whitelist not in i.to_text())
+
+def noDupes(dmnlist):
+    return list(dict.fromkeys(dmnlist))
+
+def spamCheck(dmnlist):
+  if mxCheck(dmnlist): print(i + ' uses a mail exchange server marked for spam.')
+
+with MailBox((imap)).login((un), (pw)) as mailbox:
+    incoming_email = [msg.from_ for msg in mailbox.fetch()]
+
+for i in incoming_email:
+  dmnlist.append(i[i.index('@')+1:])
+
+for i in noDupes(dmnlist):
+  spamCheck(i)
