@@ -1,34 +1,29 @@
-#This definition will take a specified domain and check its Mail Exchange (MX) server against a spam list to return a boolean value. A known spam domain is chosen for the example.#
 import dns.resolver
-spam="generator.email"
+from imap_tools import MailBox
 
-def readTed(dmn):
-  for i in dns.resolver.query(dmn, 'MX'):
+dmnlist=[]
+spam='generator.email' and 'cock.li' #Add additional spam domains here.#
+
+imap=(input("What is your IMAP server? "))
+un=(input("What is your email? "))
+pw=(input("What is your email password? "))
+
+def mxCheck(dmnlist):
+  for i in dns.resolver.query(dmnlist, 'MX'):
     return(spam in i.to_text())
 
-#This use case shows using the previous function embedded to translate the True or False boolean into a more easily interpreted response.#
-def readIndustrialSocietyandItsFuture(dmn):
-  print({True: dmn + ' uses a mail exchange server marked for spam.', False: dmn + ' is okay.'}[readTed(dmn)])
+def noDupes(dmnlist):
+    return list(dict.fromkeys(dmnlist))
 
-readIndustrialSocietyandItsFuture("pizzahut.com")
-#This should print 'Okay.'#
-readIndustrialSocietyandItsFuture("bestdizua.ml")
-#And this example should read a generated spam message.#
+def spamCheck(dmnlist):
+  if mxCheck(dmnlist): print(i + ' uses a mail exchange server marked for spam.')
 
-#Of course, if you're iterating this function through a large list of domains, you're probably more interested in which domains are bad rather. This definition only responds with the bad MX servers.#
+with MailBox((imap)).login((un), (pw)) as mailbox:
+    incoming_email = [msg.from_ for msg in mailbox.fetch()]
 
-def readKaczynski(dmn):
-  if readTed(dmn): print(dmn + ' uses a mail exchange server marked for spam.')
+for i in incoming_email:
+  dmnlist.append(i[i.index('@')+1:])
 
-#Here is a successful single use:#
+for i in noDupes(dmnlist):
+  spamCheck(i)
 
-readKaczynski("bestdizua.ml")
-
-#Here is an example of multiple good domains being parsed and only returning the one spam domain:#
-
-dmnlist=("gmail.com","hotmail.com","bestdizua.ml","forbes.com")
-
-for i in dmnlist:
-  readKaczynski(i)
-
-#This should only generate the domains within an arbitrarily long list which use the mail server indicated as a possible spam source.#
