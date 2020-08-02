@@ -2,7 +2,7 @@ import dns.resolver
 from imap_tools import MailBox
 
 dmnlist=[]
-whitelist='google.com' and 'yahoo.com' and 'outlook.com' #Add additional spam domains here.#
+whitelist='google.com' and 'yahoo.com' and 'outlook.com' #Add additional whitelisted domains here.#
 
 imap=(input("What is your IMAP server? "))
 un=(input("What is your email? "))
