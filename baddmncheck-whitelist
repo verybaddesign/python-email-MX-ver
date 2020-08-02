@@ -16,7 +16,7 @@ def noDupes(dmnlist):
     return list(dict.fromkeys(dmnlist))
 
 def spamCheck(dmnlist):
-  if mxCheck(dmnlist): print(i + ' uses a mail exchange server marked for spam.')
+  if mxCheck(dmnlist): print(i + ' uses possible spam mail exchange servers.')
 
 with MailBox((imap)).login((un), (pw)) as mailbox:
     incoming_email = [msg.from_ for msg in mailbox.fetch()]
